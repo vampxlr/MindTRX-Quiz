@@ -56,7 +56,7 @@ export default function PrivacyPage() {
               <section>
                 <h2 className="text-2xl font-semibold text-foreground mb-4">Your Rights</h2>
                 <p>
-                  You can clear your data at any time by clearing your browser's localStorage. 
+                  You can clear your data at any time by clearing your browser&apos;s localStorage. 
                   Your assessment results are tied to your result code, which you control.
                 </p>
               </section>

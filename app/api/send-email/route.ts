@@ -1,6 +1,7 @@
 // app/api/send-email/route.ts
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
+import { generateEmailHTML, generateEmailText } from "@/lib/email-template";
 
 const smtpHost = process.env.SMTP_HOST;
 const smtpPort = process.env.SMTP_PORT;
@@ -20,61 +21,36 @@ if (!smtpHost || !smtpPort || !smtpUser || !smtpPass) {
  * {
  *   "email": "person@example.com",
  *   "code": "ABCD1234",
- *   "summary": "optional text",
- *   "raw": {...anything, ignored}
+ *   "result": { comm50, trust50, quadrant, position, ... }
  * }
  */
 export async function POST(req: Request) {
   try {
     const body = await req.json().catch(() => ({}));
-    const { email, code, summary } = body as {
+    const { email, code, result } = body as {
       email?: string;
       code?: string;
-      summary?: string;
+      result?: any;
     };
 
-    if (!email) {
+    if (!email || !code) {
       return NextResponse.json(
-        { ok: false, error: "Missing email" },
+        { ok: false, error: "Missing email or code" },
         { status: 400 }
       );
     }
 
-    // Fallback subject/body if code/summary aren’t provided
-    const subject = "Your MINDTRX – Inner Mind Integration results";
-    const textBody = [
-      "Thank you for completing the MINDTRX – Inner Mind Integration Inventory.",
-      code ? `\nYour result code: ${code}` : "",
-      summary ? `\n\nSummary:\n${summary}` : "",
-      "\n\nYou can return to your results page any time using your saved link.",
-    ]
-      .join("")
-      .trim();
+    if (!result) {
+      return NextResponse.json(
+        { ok: false, error: "Missing result data" },
+        { status: 400 }
+      );
+    }
 
-    const htmlBody = `
-      <div style="font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; line-height: 1.6; color: #111827;">
-        <h2 style="color:#7c3aed; margin-bottom: 8px;">
-          MINDTRX – Inner Mind Integration Inventory
-        </h2>
-        <p>Thank you for completing your Inner Mind Integration assessment.</p>
-        ${
-          code
-            ? `<p><strong>Your result code:</strong> <code>${code}</code></p>`
-            : ""
-        }
-        ${
-          summary
-            ? `<p><strong>Summary:</strong><br />${summary
-                .toString()
-                .replace(/\n/g, "<br />")}</p>`
-            : ""
-        }
-        <p style="margin-top: 24px;">
-          With appreciation,<br />
-          <strong>MINDTRX</strong>
-        </p>
-      </div>
-    `;
+    // Generate email content using the template
+    const subject = `Your MINDTRX Results - ${result.quadrant}`;
+    const htmlBody = generateEmailHTML(result, code);
+    const textBody = generateEmailText(result, code);
 
     // If SMTP is not configured, just simulate success in dev
     if (!smtpHost || !smtpPort || !smtpUser || !smtpPass) {

@@ -8,7 +8,7 @@ export default function PrivacyPage() {
       <div className="relative z-10 min-h-[calc(100vh-8rem)] py-16">
         <div className="container mx-auto px-4 max-w-4xl">
           <div className="glass-card rounded-2xl p-8 md:p-12">
-            <h1 className="text-4xl font-orbitron font-bold mb-8 glow-text">Privacy Policy</h1>
+            <h1 className="text-4xl font-sans font-bold mb-8 glow-text">Privacy Policy</h1>
             
             <div className="prose prose-invert max-w-none space-y-6 text-muted-foreground">
               <section>

@@ -24,7 +24,7 @@ export default function HomePage() {
               transition={{ delay: 0.2, duration: 0.6 }}
               className="mb-6"
             >
-              <h1 className="text-5xl md:text-7xl font-orbitron font-black glow-text mb-4">
+              <h1 className="text-5xl md:text-7xl font-sans font-black glow-text mb-4">
                 MINDTRX
               </h1>
               <p className="text-xl md:text-2xl text-primary font-semibold">
@@ -95,7 +95,7 @@ export default function HomePage() {
               transition={{ delay: 1, duration: 0.8 }}
               className="mt-16 glass-card rounded-xl p-8 max-w-2xl mx-auto"
             >
-              <h2 className="text-2xl font-orbitron font-bold mb-4">What You&apos;ll Discover</h2>
+              <h2 className="text-2xl font-sans font-bold mb-4">What You&apos;ll Discover</h2>
               <ul className="text-left space-y-3 text-muted-foreground">
                 <li className="flex items-start">
                   <span className="text-primary mr-2">•</span>

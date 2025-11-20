@@ -53,6 +53,16 @@ export default function QuizPage() {
     setAnswers(prev => ({ ...prev, [currentQ.id]: value }));
   };
 
+  const handleAnswerComplete = () => {
+    // Called when user finishes selecting an answer (releases slider)
+    if (autoProgressEnabled && canGoNext) {
+      // Small delay to allow the answer to be saved
+      setTimeout(() => {
+        setCurrentQuestion(prev => prev + 1);
+      }, 150);
+    }
+  };
+
   const handleNext = () => {
     if (canGoNext) {
       // Save current answer if not already saved
@@ -170,7 +180,7 @@ export default function QuizPage() {
             animate={{ opacity: 1, y: 0 }}
             className="glass-card rounded-xl p-4 mb-6"
           >
-            <h2 className="text-lg font-orbitron font-semibold text-primary mb-1">
+            <h2 className="text-lg font-sans font-semibold text-primary mb-1">
               Section {currentSection === 'communication' ? '1' : '2'}: {sectionInfo[currentSection].title}
             </h2>
             <p className="text-sm text-muted-foreground">
@@ -206,6 +216,7 @@ export default function QuizPage() {
               <QuizSlider
                 value={answers[currentQ.id] || 3}
                 onChange={handleAnswer}
+                onComplete={handleAnswerComplete}
                 questionNumber={currentQ.id}
               />
 

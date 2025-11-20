@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 interface QuizSliderProps {
   value: number;
   onChange: (value: number) => void;
+  onComplete?: () => void;
   questionNumber: number;
 }
 
@@ -17,8 +18,22 @@ const labels = [
   'Very True'
 ];
 
-export function QuizSlider({ value, onChange, questionNumber }: QuizSliderProps) {
+export function QuizSlider({ value, onChange, onComplete, questionNumber }: QuizSliderProps) {
   const [isDragging, setIsDragging] = useState(false);
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+    if (onComplete) {
+      onComplete();
+    }
+  };
+
+  const handleTouchEnd = () => {
+    setIsDragging(false);
+    if (onComplete) {
+      onComplete();
+    }
+  };
 
   return (
     <div className="space-y-4">
@@ -39,9 +54,9 @@ export function QuizSlider({ value, onChange, questionNumber }: QuizSliderProps)
           value={value}
           onChange={(e) => onChange(Number(e.target.value))}
           onMouseDown={() => setIsDragging(true)}
-          onMouseUp={() => setIsDragging(false)}
+          onMouseUp={handleMouseUp}
           onTouchStart={() => setIsDragging(true)}
-          onTouchEnd={() => setIsDragging(false)}
+          onTouchEnd={handleTouchEnd}
           className="w-full h-2 rounded-lg appearance-none cursor-pointer slider-track"
           style={{
             background: `linear-gradient(to right, 

@@ -128,7 +128,7 @@ function ResultsContent() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-pulse text-4xl font-orbitron font-bold text-primary mb-4">
+          <div className="animate-pulse text-4xl font-sans font-bold text-primary mb-4">
             Loading...
           </div>
         </div>
@@ -150,7 +150,7 @@ function ResultsContent() {
             animate={{ opacity: 1, y: 0 }}
             className="text-center mb-8"
           >
-            <h1 className="text-4xl md:text-5xl font-orbitron font-bold glow-text mb-4">
+            <h1 className="text-4xl md:text-5xl font-sans font-bold glow-text mb-4">
               Your MINDTRX Results
             </h1>
             <div className="glass-card inline-block rounded-lg px-6 py-2">
@@ -264,7 +264,7 @@ function ResultsContent() {
             >
               {/* Quadrant Feedback */}
               <div className="glass-card rounded-xl p-6">
-                <h2 className="text-2xl font-orbitron font-bold mb-4">
+                <h2 className="text-2xl font-sans font-bold mb-4">
                   Understanding Your Quadrant
                 </h2>
                 <h3 className="text-xl text-primary font-semibold mb-3">{result.quadrant}</h3>
@@ -274,7 +274,7 @@ function ResultsContent() {
 
               {/* Position Feedback */}
               <div className="glass-card rounded-xl p-6">
-                <h2 className="text-2xl font-orbitron font-bold mb-4">
+                <h2 className="text-2xl font-sans font-bold mb-4">
                   Your Specific Position
                 </h2>
                 <h3 className="text-xl text-primary font-semibold mb-3">{result.position}</h3>
@@ -284,7 +284,7 @@ function ResultsContent() {
 
               {/* Explanation */}
               <div className="glass-card rounded-xl p-6 bg-primary/5">
-                <h3 className="text-lg font-orbitron font-semibold mb-3">How to Read Your Results</h3>
+                <h3 className="text-lg font-sans font-semibold mb-3">How to Read Your Results</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
                   Your <strong>Communication score</strong> reflects how often you actively engage 
                   inner-mind practices like meditation, journaling, and dreamwork. Your{" "}
@@ -361,7 +361,7 @@ export default function ResultsPage() {
   return (
     <Suspense fallback={
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-pulse text-4xl font-orbitron font-bold text-primary">
+        <div className="animate-pulse text-4xl font-sans font-bold text-primary">
           Loading...
         </div>
       </div>

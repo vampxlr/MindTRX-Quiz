@@ -382,7 +382,7 @@ export function QuadrantChart({
         className="glass-card rounded-xl p-6 text-center"
       >
         <div className="text-sm text-muted-foreground mb-2">Your Quadrant</div>
-        <div className="text-2xl font-orbitron font-bold text-primary mb-3">{quadrant}</div>
+        <div className="text-2xl font-sans font-bold text-primary mb-3">{quadrant}</div>
         <div className="text-lg font-semibold">{position}</div>
       </motion.div>
     </div>

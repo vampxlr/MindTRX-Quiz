@@ -17,6 +17,7 @@ export default function QuizPage() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<QuizAnswers>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [autoProgressEnabled, setAutoProgressEnabled] = useState(true);
 
   // Load saved progress
   useEffect(() => {
@@ -25,6 +26,14 @@ export default function QuizPage() {
       setAnswers(saved);
     }
   }, []);
+
+  // Initialize default answer (3) for current question if not answered
+  useEffect(() => {
+    const currentQ = quizQuestions[currentQuestion];
+    if (answers[currentQ.id] === undefined) {
+      setAnswers(prev => ({ ...prev, [currentQ.id]: 3 }));
+    }
+  }, [currentQuestion, answers]);
 
   // Autosave on answer change
   useEffect(() => {
@@ -46,7 +55,17 @@ export default function QuizPage() {
 
   const handleNext = () => {
     if (canGoNext) {
+      // Save current answer if not already saved
+      if (answers[currentQ.id] === undefined) {
+        setAnswers(prev => ({ ...prev, [currentQ.id]: 3 }));
+      }
       setCurrentQuestion(prev => prev + 1);
+    }
+  };
+
+  const handleProgressBarClick = () => {
+    if (autoProgressEnabled && canGoNext) {
+      handleNext();
     }
   };
 
@@ -111,15 +130,30 @@ export default function QuizPage() {
         <div className="container mx-auto px-4 max-w-3xl">
           {/* Progress Bar */}
           <div className="mb-8">
-            <div className="flex justify-between text-sm mb-2">
+            <div className="flex justify-between items-center text-sm mb-2">
               <span className="text-muted-foreground">
                 Question {currentQuestion + 1} of {quizQuestions.length}
               </span>
-              <span className="text-primary font-semibold">
-                {Math.round(progress)}% Complete
-              </span>
+              <div className="flex items-center gap-4">
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={autoProgressEnabled}
+                    onChange={(e) => setAutoProgressEnabled(e.target.checked)}
+                    className="w-4 h-4 rounded border-primary text-primary focus:ring-primary cursor-pointer"
+                  />
+                  <span className="text-xs text-muted-foreground">Auto-progress</span>
+                </label>
+                <span className="text-primary font-semibold">
+                  {Math.round(progress)}% Complete
+                </span>
+              </div>
             </div>
-            <div className="h-2 bg-secondary rounded-full overflow-hidden">
+            <div 
+              className={`h-2 bg-secondary rounded-full overflow-hidden ${autoProgressEnabled ? 'cursor-pointer hover:opacity-80' : ''}`}
+              onClick={handleProgressBarClick}
+              title={autoProgressEnabled ? 'Click to advance to next question' : ''}
+            >
               <motion.div
                 className="h-full bg-gradient-to-r from-primary to-cyan-500"
                 initial={{ width: 0 }}
@@ -170,7 +204,7 @@ export default function QuizPage() {
               </div>
 
               <QuizSlider
-                value={answers[currentQ.id] || 1}
+                value={answers[currentQ.id] || 3}
                 onChange={handleAnswer}
                 questionNumber={currentQ.id}
               />
@@ -218,30 +252,6 @@ export default function QuizPage() {
                 <ChevronRight className="w-5 h-5 ml-1" />
               </button>
             )}
-          </div>
-
-          {/* Quick Navigation */}
-          <div className="mt-8 glass-card rounded-xl p-6">
-            <h4 className="text-sm font-semibold mb-4 text-muted-foreground">Quick Navigation</h4>
-            <div className="grid grid-cols-9 gap-2">
-              {quizQuestions.map((q, idx) => (
-                <button
-                  key={q.id}
-                  onClick={() => setCurrentQuestion(idx)}
-                  className={`
-                    w-10 h-10 rounded-lg text-sm font-semibold transition-all
-                    ${idx === currentQuestion 
-                      ? 'bg-primary text-primary-foreground ring-2 ring-primary ring-offset-2 ring-offset-background' 
-                      : answers[q.id] !== undefined
-                      ? 'bg-primary/20 text-primary'
-                      : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
-                    }
-                  `}
-                >
-                  {q.id}
-                </button>
-              ))}
-            </div>
           </div>
         </div>
       </div>

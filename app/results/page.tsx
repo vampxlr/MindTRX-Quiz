@@ -264,17 +264,36 @@ function ResultsContent() {
             >
               {/* Quadrant Feedback */}
               <div className="glass-card rounded-xl p-6">
-                <h2 className="text-2xl font-orbitron font-bold mb-3">Your Quadrant</h2>
+                <h2 className="text-2xl font-orbitron font-bold mb-4">
+                  Understanding Your Quadrant
+                </h2>
                 <h3 className="text-xl text-primary font-semibold mb-3">{result.quadrant}</h3>
-                <p className="text-muted-foreground">{feedback.quadrant}</p>
+                <p className="text-sm text-muted-foreground mb-4 italic">{feedback.quadrant.summary}</p>
+                <p className="text-muted-foreground leading-relaxed">{feedback.quadrant.detailed}</p>
               </div>
 
               {/* Position Feedback */}
               <div className="glass-card rounded-xl p-6">
-                <h2 className="text-2xl font-orbitron font-bold mb-3">Your Position</h2>
+                <h2 className="text-2xl font-orbitron font-bold mb-4">
+                  Your Specific Position
+                </h2>
                 <h3 className="text-xl text-primary font-semibold mb-3">{result.position}</h3>
-                <p className="text-sm text-muted-foreground mb-4">{feedback.position.short}</p>
-                <p className="text-muted-foreground leading-relaxed">{feedback.position.long}</p>
+                <p className="text-sm text-muted-foreground mb-4 italic">{feedback.position.summary}</p>
+                <p className="text-muted-foreground leading-relaxed">{feedback.position.detailed}</p>
+              </div>
+
+              {/* Explanation */}
+              <div className="glass-card rounded-xl p-6 bg-primary/5">
+                <h3 className="text-lg font-orbitron font-semibold mb-3">How to Read Your Results</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Your <strong>Communication score</strong> reflects how often you actively engage 
+                  inner-mind practices like meditation, journaling, and dreamwork. Your{" "}
+                  <strong>Trust score</strong> reflects how deeply you rely on inner guidance, 
+                  intuition, and synchronicity. As your dot moves up (more communication) and to 
+                  the right (more trust), you&apos;re integrating practice and faith—gradually embodying 
+                  the <strong>Integrated Alchemist</strong> archetype where inner wisdom becomes 
+                  a reliable compass for life.
+                </p>
               </div>
 
               {/* Share & Actions */}

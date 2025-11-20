@@ -95,7 +95,7 @@ export default function HomePage() {
               transition={{ delay: 1, duration: 0.8 }}
               className="mt-16 glass-card rounded-xl p-8 max-w-2xl mx-auto"
             >
-              <h2 className="text-2xl font-orbitron font-bold mb-4">What You'll Discover</h2>
+              <h2 className="text-2xl font-orbitron font-bold mb-4">What You&apos;ll Discover</h2>
               <ul className="text-left space-y-3 text-muted-foreground">
                 <li className="flex items-start">
                   <span className="text-primary mr-2">•</span>

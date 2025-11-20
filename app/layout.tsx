@@ -25,7 +25,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: `
               try {
-                const theme = localStorage.getItem('mindtrx-theme') || 'dark';
+                const theme = localStorage.getItem('mindtrx-theme') || 'bright';
                 document.documentElement.classList.add(theme);
               } catch (e) {}
             `,

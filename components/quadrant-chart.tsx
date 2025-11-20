@@ -297,7 +297,7 @@ export function QuadrantChart({
 
     const animationId = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(animationId);
-  }, [comm50, trust50, ghostComm, ghostTrust, ghostMode]);
+  }, [comm50, trust50, ghostComm, ghostTrust, ghostMode, chartSize, mainPos, ghostPos]);
 
   const quadrantLabels = [
     { name: 'Disengaged\nMind', x: '25%', y: '75%', align: 'center' },

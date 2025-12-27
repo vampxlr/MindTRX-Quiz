@@ -209,7 +209,7 @@ export default function QuizPage() {
                   {currentQ.text}
                 </h3>
                 <p className="text-sm text-muted-foreground">
-                  Rate from 1 (Rarely/Never true) to 5 (Very true)
+                  Rate from 1 (Never true) to 5 (Always true)
                 </p>
               </div>
 

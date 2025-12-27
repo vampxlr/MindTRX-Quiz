@@ -11,11 +11,11 @@ interface QuizSliderProps {
 }
 
 const labels = [
-  'Rarely/Never',
-  'Sometimes',
-  'Moderately',
-  'Often',
-  'Very True'
+  'Never true',
+  'Rarely true',
+  'Sometimes true',
+  'Mostly true',
+  'Always true'
 ];
 
 export function QuizSlider({ value, onChange, onComplete, questionNumber }: QuizSliderProps) {

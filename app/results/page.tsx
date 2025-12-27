@@ -8,7 +8,8 @@ import { mapIMII } from '@/lib/scoring';
 import { getFeedback } from '@/lib/feedback';
 import { QuadrantChart } from '@/components/quadrant-chart';
 import { NeuronBackground } from '@/components/neuron-background';
-import { Share2, Mail, Copy, Download, RotateCcw, Sliders } from 'lucide-react';
+import { PositionExplorer } from '@/components/position-explorer';
+import { Share2, Mail, Copy, Download, RotateCcw, Sliders, Map } from 'lucide-react';
 import type { StoredResult } from '@/lib/types';
 
 function ResultsContent() {
@@ -18,6 +19,7 @@ function ResultsContent() {
 
   const [result, setResult] = useState<StoredResult | null>(null);
   const [showPlayMode, setShowPlayMode] = useState(false);
+  const [showPositionExplorer, setShowPositionExplorer] = useState(false);
   const [playComm, setPlayComm] = useState(0);
   const [playTrust, setPlayTrust] = useState(0);
   const [playResult, setPlayResult] = useState<ReturnType<typeof mapIMII> | null>(null);
@@ -80,11 +82,11 @@ function ResultsContent() {
 
   const handleShare = async () => {
     const url = `${window.location.origin}/results?code=${code}`;
-    const text = `Check out my MINDTRX Inner Mind Integration Inventory results!`;
+    const text = `Check out my Inner Mind Integration Inventory Report!`;
     
     if (navigator.share) {
       try {
-        await navigator.share({ title: 'MINDTRX IMII Results', text, url });
+        await navigator.share({ title: 'Inner Mind Integration Inventory Report', text, url });
       } catch (err) {
         handleCopyLink();
       }
@@ -151,7 +153,7 @@ function ResultsContent() {
             className="text-center mb-8"
           >
             <h1 className="text-4xl md:text-5xl font-sans font-bold glow-text mb-4">
-              Your MINDTRX Results
+              Inner Mind Integration Inventory Report
             </h1>
             <div className="glass-card inline-block rounded-lg px-6 py-2">
               <span className="text-sm text-muted-foreground mr-2">Result Code:</span>
@@ -177,21 +179,46 @@ function ResultsContent() {
                 ghostTrust={showPlayMode ? playTrust : undefined}
               />
 
-              {/* Play Mode Controls */}
+              {/* Interactive Controls */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
                 className="mt-6 glass-card rounded-xl p-6"
               >
-                <button
-                  onClick={() => setShowPlayMode(!showPlayMode)}
-                  className="flex items-center justify-center w-full mb-4 px-4 py-2 rounded-lg bg-primary/20 hover:bg-primary/30 text-primary transition-all"
-                >
-                  <Sliders className="w-4 h-4 mr-2" />
-                  {showPlayMode ? 'Hide' : 'Show'} Play Mode
-                </button>
+                <div className="grid grid-cols-2 gap-3 mb-4">
+                  <button
+                    onClick={() => {
+                      setShowPlayMode(!showPlayMode);
+                      if (showPositionExplorer) setShowPositionExplorer(false);
+                    }}
+                    className={`flex items-center justify-center px-4 py-2 rounded-lg transition-all ${
+                      showPlayMode 
+                        ? 'bg-primary text-primary-foreground' 
+                        : 'bg-primary/20 hover:bg-primary/30 text-primary'
+                    }`}
+                  >
+                    <Sliders className="w-4 h-4 mr-2" />
+                    Sliders
+                  </button>
+                  
+                  <button
+                    onClick={() => {
+                      setShowPositionExplorer(!showPositionExplorer);
+                      if (showPlayMode) setShowPlayMode(false);
+                    }}
+                    className={`flex items-center justify-center px-4 py-2 rounded-lg transition-all ${
+                      showPositionExplorer 
+                        ? 'bg-primary text-primary-foreground' 
+                        : 'bg-primary/20 hover:bg-primary/30 text-primary'
+                    }`}
+                  >
+                    <Map className="w-4 h-4 mr-2" />
+                    Explore Map
+                  </button>
+                </div>
 
+                {/* Slider Play Mode */}
                 {showPlayMode && (
                   <motion.div
                     initial={{ opacity: 0, height: 0 }}
@@ -200,34 +227,38 @@ function ResultsContent() {
                     className="space-y-4"
                   >
                     <p className="text-sm text-muted-foreground mb-4">
-                      Explore how different scores would change your position:
+                      Adjust sliders to explore how different scores change your position. Watch the glowing dot move in real-time!
                     </p>
 
                     <div>
-                      <label className="text-sm font-semibold mb-2 block">
+                      <label htmlFor="play-comm-slider" className="text-sm font-semibold mb-2 block">
                         Communication: {playComm}/50
                       </label>
                       <input
+                        id="play-comm-slider"
                         type="range"
                         min="0"
                         max="50"
                         value={playComm}
                         onChange={(e) => setPlayComm(Number(e.target.value))}
                         className="w-full"
+                        aria-label="Communication score slider"
                       />
                     </div>
 
                     <div>
-                      <label className="text-sm font-semibold mb-2 block">
+                      <label htmlFor="play-trust-slider" className="text-sm font-semibold mb-2 block">
                         Trust: {playTrust}/50
                       </label>
                       <input
+                        id="play-trust-slider"
                         type="range"
                         min="0"
                         max="50"
                         value={playTrust}
                         onChange={(e) => setPlayTrust(Number(e.target.value))}
                         className="w-full"
+                        aria-label="Trust score slider"
                       />
                     </div>
 
@@ -250,6 +281,26 @@ function ResultsContent() {
                     >
                       Reset to Your Actual Position
                     </button>
+                  </motion.div>
+                )}
+
+                {/* Position Explorer */}
+                {showPositionExplorer && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                  >
+                    <PositionExplorer
+                      currentComm={result.comm50}
+                      currentTrust={result.trust50}
+                      onPositionSelect={(comm, trust) => {
+                        setPlayComm(comm);
+                        setPlayTrust(trust);
+                        setShowPositionExplorer(false);
+                        setShowPlayMode(true);
+                      }}
+                    />
                   </motion.div>
                 )}
               </motion.div>
@@ -280,6 +331,17 @@ function ResultsContent() {
                 <h3 className="text-xl text-primary font-semibold mb-3">{result.position}</h3>
                 <p className="text-sm text-muted-foreground mb-4 italic">{feedback.position.summary}</p>
                 <p className="text-muted-foreground leading-relaxed">{feedback.position.detailed}</p>
+                
+                {/* Growth Guidance */}
+                {feedback.position.growth && (
+                  <div className="mt-6 pt-6 border-t border-border">
+                    <div className="prose prose-sm max-w-none">
+                      <div className="text-muted-foreground leading-relaxed whitespace-pre-line">
+                        {feedback.position.growth}
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Explanation */}
@@ -331,6 +393,8 @@ function ResultsContent() {
                       onClick={handleSendEmail}
                       disabled={!email || emailSending}
                       className="px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                      aria-label="Send email"
+                      title="Send results via email"
                     >
                       <Mail className="w-4 h-4" />
                     </button>

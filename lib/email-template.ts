@@ -84,8 +84,8 @@ export function generateEmailHTML(result: StoredResult, code: string): string {
   </head>
   <body>
     <div class="header">
-      <h1>Your MINDTRX Results</h1>
-      <p>Inner Mind Integration Inventory (IMII)</p>
+      <h1>Inner Mind Integration Inventory Report</h1>
+      <p>Your IMII Assessment Results</p>
     </div>
 
     <div class="content">
@@ -113,7 +113,7 @@ export function generateEmailHTML(result: StoredResult, code: string): string {
     </div>
 
     <div class="footer">
-      <p><strong>MINDTRX</strong> - Inner Mind Integration</p>
+      <p><strong>Inner Mind Integration Inventory</strong></p>
       <p>This email was sent because you requested your assessment results.</p>
     </div>
   </body>
@@ -125,7 +125,7 @@ export function generateEmailText(result: StoredResult, code: string): string {
   const deepLink = `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/results?code=${code}`;
 
   return `
-MINDTRX - Inner Mind Integration Inventory v2
+Inner Mind Integration Inventory Report
 Your Assessment Results
 
 Result Code: ${code}
@@ -143,8 +143,8 @@ ${deepLink}
 Save your result code (${code}) to access your results anytime.
 
 ---
-Powered by MINDTRX
-Inner Mind Integration Inventory v2
+Inner Mind Integration Inventory
+Powered by MindTRX
   `;
 }
 

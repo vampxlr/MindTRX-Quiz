@@ -75,7 +75,7 @@ export const quizQuestions: QuizQuestion[] = [
   {
     id: 14,
     section: 'communication',
-    text: 'I explore altered states (float tanks, trance, etc.).',
+    text: 'I explore altered states (float tanks, trance, Holosync, Audio Visual Entrainment, Shamanic journeying).',
   },
   // Section 2: Trust in the Inner Mind (15-27)
   {
@@ -111,7 +111,7 @@ export const quizQuestions: QuizQuestion[] = [
   {
     id: 21,
     section: 'trust',
-    text: 'I have used psychedelics / entheogens for awakening.',
+    text: 'I have used psychedelics/entheogens for awakening to higher consciousness.',
   },
   {
     id: 22,
@@ -136,7 +136,7 @@ export const quizQuestions: QuizQuestion[] = [
   {
     id: 26,
     section: 'trust',
-    text: 'I feel confident in spontaneous insights and inspiration.',
+    text: 'I feel confident in the spontaneous insights and inspiration that come to me.',
   },
   {
     id: 27,

@@ -1,6 +1,16 @@
 'use client';
 
-import { Suspense } from 'react';
+import { useEffect, useState, Suspense } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
+import { motion } from 'framer-motion';
+import { storage } from '@/lib/storage';
+import { mapIMII } from '@/lib/scoring';
+import { getFeedback } from '@/lib/feedback';
+import { QuadrantChart } from '@/components/quadrant-chart';
+import { NeuronBackground } from '@/components/neuron-background';
+import { PositionExplorer } from '@/components/position-explorer';
+import { Share2, Mail, Copy, RotateCcw, Sliders, Map } from 'lucide-react';
+import type { StoredResult } from '@/lib/types';
 import { ResultsRedesign } from './results-redesign';
 
 function ResultsContent() {
